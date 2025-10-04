@@ -34,7 +34,7 @@ I'm a passionate **Web3 student** who seeks to understand more about this world.
 ## How to Reach Me
 
 - [LinkedIn](https://www.linkedin.com/in/felipe-pedrini-oliveira-a6607a385/)  
-- [Email Me](felipepedrinioliveira@gmail.com)
+- [Email] (felipepedrinioliveira@gmail.com)
 
 ---
 
