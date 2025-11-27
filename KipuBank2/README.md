@@ -45,9 +45,3 @@ This document contains an upgraded `KipuBankV2.sol` contract (production-minded 
 * After verifying, register tokens and publish a short deployment/interaction script using Hardhat or Foundry.
 
 ---
-
-If you want, I can:
-
-* extract the `KipuBankV2.sol` file into a separate code file in the repository structure (`/src/contracts/KipuBankV2.sol`),
-* produce a Hardhat deployment script and example tests,
-* add staleness checks for Chainlink feeds and more granular withdrawal limits per token.
