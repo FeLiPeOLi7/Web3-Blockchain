@@ -66,31 +66,33 @@ It has been identified four critical attack surfaces across logic, economics, an
 
 Invariants are properties that must remain true for the duration of the contract's lifecycle.
 
-I-01	Bank Capacity Cap: totalDepositsInUsd must always be less than or equal to bankCapInUsd.	Ensures the protocol adheres to its maximum defined exposure limit.
-
-I-02	Token Conservation (After Swap): For any call to depositArbitraryToken(TOKEN_A, amountIn), the final contract balance of USDC must be greater than the initial contract balance of USDC by amountOut. Concurrently, the final contract balance of TOKEN_A must equal the initial contract balance of TOKEN_A (i.e., amountIn must have been fully spent by the router).	Validates the core logic of the Universal Router integration: tokens in are swapped for tokens out, with no residual input token left unaccounted for.
-
-I-03	NFT Supply Limit: tokenCurrentSupply_ must always be less than or equal to maxSupply.	Guarantees the scarcity and integrity of the ERC721 collection.
-
-I-04	Balance Non-Negativity: For all users U and all tokens T, balances[U][T] must be greater than or equal to zero.	Prevents potential underflow exploits or incorrect accounting that leads to negative balances.
+    I-01	Bank Capacity Cap: totalDepositsInUsd must always be less than or equal to bankCapInUsd.	Ensures the protocol adheres to its maximum defined exposure limit.
+    
+    I-02	Token Conservation (After Swap): For any call to depositArbitraryToken(TOKEN_A, amountIn), the final contract balance of USDC must be greater than the initial contract balance of USDC by amountOut. Concurrently, the final contract balance of TOKEN_A must equal the initial contract balance of TOKEN_A (i.e., amountIn must have been fully spent by the router).	Validates the core logic of the Universal Router integration: tokens in are swapped for tokens out, with no residual input token left unaccounted for.
+    
+    I-03	NFT Supply Limit: tokenCurrentSupply_ must always be less than or equal to maxSupply.	Guarantees the scarcity and integrity of the ERC721 collection.
+    
+    I-04	Balance Non-Negativity: For all users U and all tokens T, balances[U][T] must be greater than or equal to zero.	Prevents potential underflow exploits or incorrect accounting that leads to negative balances.
 
 5. Impact of Invariant Violations
 
-I-01 (Cap)	Allows the protocol to exceed its defined capital limits, creating systemic risk and potential regulatory exposure.	This is a great risk, because the bank cannot surpass the bankCapInUSDC.
+    I-01 (Cap)	Allows the protocol to exceed its defined capital limits, creating systemic risk and potential regulatory exposure.	This is a great risk, because the bank cannot surpass the bankCapInUSDC.
+    
+    I-02 (Conservation)	Critical Loss of Funds: Indicates that the Universal Router call failed partially, an internal token transfer failed, or a slippage exploit occurred, leading to a loss of user funds or residual input tokens stuck in the contract. 
 
-I-02 (Conservation)	Critical Loss of Funds: Indicates that the Universal Router call failed partially, an internal token transfer failed, or a slippage exploit occurred, leading to a loss of user funds or residual input tokens stuck in the contract. 
-
-I-04 (Non-Negativity)	If a balance becomes negative (due to an underflow during withdrawal), it allows the user to withdraw an arbitrary, massive amount of funds from the contract's reserves (Theft).
+    I-03 (Scarcity) If a token surpass his maxSupply, could be potentially dangerous for the bank, because could inflationate the price of the token.
+    
+    I-04 (Non-Negativity)	If a balance becomes negative (due to an underflow during withdrawal), it allows the user to withdraw an arbitrary, massive amount of funds from the contract's reserves (Theft).
 
 6. Recommendations and Validation
 
-1. Oracle Security	Implement Stale Data Checks in getEthPriceInUsd() and getBTCEthPrice(). Revert if updatedAt is older than, e.g., 3 hours.	
-
-2. Remove Hardcoded Slippage: Modify _swapArbitraryTokenToUSDC to accept a dynamic minAmountOut parameter, calculated by the user's front-end based on a max slippage tolerance (e.g., 0.5%).	
-
-3. Invariant Testing to ensure I-01, I-02, and I-04 are never violated across thousands of random deposit/pull/mint operations.
-
-4. Make more roles to not have a single point of failure (owner).
+    1. Oracle Security	Implement Stale Data Checks in getEthPriceInUsd() and getBTCEthPrice(). Revert if updatedAt is older than, e.g., 3 hours.	
+    
+    2. Remove Hardcoded Slippage: Modify _swapArbitraryTokenToUSDC to accept a dynamic minAmountOut parameter, calculated by the user's front-end based on a max slippage tolerance (e.g., 0.5%).	
+    
+    3. Invariant Testing to ensure I-01, I-02, and I-04 are never violated across thousands of random deposit/pull/mint operations.
+    
+    4. Make more roles to not have a single point of failure (owner).
 
 7. Conclusion and Next Steps
 
