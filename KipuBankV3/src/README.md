@@ -42,3 +42,13 @@ O contrato permite a cunhagem de NFTs através de três métodos de pagamento di
 
 * **`nonReentrant`:** O modificador `nonReentrant` é aplicado às funções críticas de depósito e saque para prevenir ataques de reentrada.
 * **`onlyOwner`:** Funções administrativas (como `setPrices` e `setSaleActive`) são restritas ao proprietário do contrato.
+
+### Sourcify verification successful.
+https://repo.sourcify.dev/11155111/0xFAf8297A7AceEE176126d0F27E303F6eEBEAEf09/
+
+### Routescan verification successful.
+
+https://testnet.routescan.io/address/0xFAf8297A7AceEE176126d0F27E303F6eEBEAEf09/contract/11155111/code
+
+### Blockscout verification successful.
+https://eth-sepolia.blockscout.com/address/0xFAf8297A7AceEE176126d0F27E303F6eEBEAEf09?tab=contract
