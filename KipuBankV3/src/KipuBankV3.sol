@@ -240,7 +240,6 @@ contract KipuBankV3 is ERC721, Ownable(msg.sender), ReentrancyGuard{
 
             // Mantendo a lógica do V2 para simplificar o manejo de ETH vs WETH/Router:
             // ETH depositado é convertido para USD via oráculo para fins de Cap.
-            // NOTA: Para um sistema real, o ETH seria swappado para USDC via WETH usando o Router.
             // Para cumprir o requisito do V2, mantemos o oráculo.
             finalAmount = _toUsd(token, amount); // Valor em USD, escala 1e18
             finalToken = address(0); // Mantemos o token ETH no saldo, mas o valor é em USD (1e18)
